@@ -1,5 +1,6 @@
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:internship_task1/theme/colors.dart';
 
 class CustomTextField extends StatefulWidget {
   const CustomTextField({
@@ -30,30 +31,27 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextFormField(
-        key: widget.key,
-        decoration: InputDecoration(
-          labelText: widget.label,
-          hintText: widget.hint,
-          border: OutlineInputBorder(
-            borderSide: const BorderSide(width: 2, color: Colors.deepPurple),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(width: 2, color: Colors.deepPurple),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          prefixIcon: widget.prefixIcon,
+    return TextFormField(
+      key: widget.key,
+      decoration: InputDecoration(
+        labelText: widget.label,
+        hintText: widget.hint,
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2.w, color: TasksColors.primaryColor),
+          borderRadius: BorderRadius.circular(16),
         ),
-        controller: widget.controller,
-        keyboardType: widget.keyboardInputType,
-        obscureText: widget.obscureText,
-        onChanged: widget.onChanged,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: widget.validator,
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 2.w, color: TasksColors.primaryColor),
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        prefixIcon: widget.prefixIcon,
       ),
+      controller: widget.controller,
+      keyboardType: widget.keyboardInputType,
+      obscureText: widget.obscureText,
+      onChanged: widget.onChanged,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: widget.validator,
     );
   }
 }
