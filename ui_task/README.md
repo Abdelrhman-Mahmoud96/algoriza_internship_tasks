@@ -1,4 +1,4 @@
-# UI Task(first task):
+# UI Task (first task):
 
 - Features:
   - creating boarding and registring pages
