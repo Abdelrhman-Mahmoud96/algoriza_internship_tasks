@@ -1,16 +1,17 @@
-# todo_task
+# Todo Task (second internship task):
 
-A new Flutter project.
+# Features:
+- Board Page:
+  - Filtering tabs [all, finished, uncompleted, favourite] are used to display todos.
+  - determining if the todo has been completed or not by tapping the left check box
+  - Choosing whether to make it a favourite todo by tapping the star icon.
+  - To delete the todo, swipe to the left.
+ 
+- Add Todo Page:
+  - creating a new todo with the following information: id, title, date, start time, finish time, and reminder.
+  - By selecting one of the reminder choices, the app will notify the user of the todo and its start time.
 
-## Getting Started
+- Schedule Page: 
+  - displaying available todos with completion status for each date.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
