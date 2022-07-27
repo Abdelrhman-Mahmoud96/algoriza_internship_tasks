@@ -5,18 +5,41 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "algoriza_internship_tasks",
+            "name": "todo_task",
+            "cwd": "todo_task",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "algoriza_internship_tasks (profile mode)",
+            "name": "todo_task (profile mode)",
+            "cwd": "todo_task",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "algoriza_internship_tasks (release mode)",
+            "name": "todo_task (release mode)",
+            "cwd": "todo_task",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "ui_task",
+            "cwd": "ui_task",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "ui_task (profile mode)",
+            "cwd": "ui_task",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "ui_task (release mode)",
+            "cwd": "ui_task",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
