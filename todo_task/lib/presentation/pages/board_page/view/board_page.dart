@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_task/core/helpers/todos_tab_filter.dart';
 import 'package:todo_task/core/route/route_generator.dart';
 import 'package:todo_task/domain/repository/i_repository.dart';
+import 'package:todo_task/presentation/notifications/todo_notification_utils.dart';
 import 'package:todo_task/presentation/pages/board_page/bloc/board_page_bloc.dart';
 import 'package:todo_task/presentation/pages/board_page/tabs/all_todos_tab/all_todos_page.dart';
 import 'package:todo_task/presentation/pages/board_page/tabs/completed_todos_tab/completed_todos_page.dart';
@@ -15,7 +16,11 @@ class BoardPage extends StatelessWidget {
   const BoardPage({Key? key,}) : super(key: key);
   
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) { 
+     // check notification permission and create a dialog
+    // to get user permission if not granted already 
+    notificationPermissionRequest(context: context);  
+    
     return BlocProvider<BoardPageBloc>(
       create: (context) =>
           BoardPageBloc(databaseRepository: context.read<IRepository>()),

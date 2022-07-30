@@ -17,7 +17,7 @@ Future<void> bootstrap({required TodoDao todoDao,}) async {
   await runZonedGuarded(
     () async {
       await BlocOverrides.runZoned(
-        () async => runApp(TodoAppPage(
+        () async => runApp(TodoApp(
           todoRepository: todoRepository,
         )),
         blocObserver: AppBlocObserver(),

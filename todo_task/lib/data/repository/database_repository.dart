@@ -48,7 +48,7 @@ class DatabaseRepository implements IRepository {
     final currentTodos = [..._todoStreamController.value];
 
     final updatedTodoIndex =
-        currentTodos.indexWhere((todo) => todo.id == todo.id);
+        currentTodos.indexWhere((t) => t.id == todo.id);
 
     currentTodos[updatedTodoIndex] = todo;
 

@@ -1,12 +1,11 @@
+import 'dart:developer';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_task/core/converters/date_converter.dart';
 import 'package:todo_task/core/converters/time_converter.dart';
-import 'package:todo_task/core/route/route_generator.dart';
 import 'package:todo_task/domain/entity/todo.dart';
 import 'package:todo_task/theme/colors.dart';
-
-
 
 void notificationPermissionRequest({required BuildContext context}) {
   AwesomeNotifications().isNotificationAllowed().then((isAllowed) async {
@@ -49,11 +48,11 @@ void notificationPermissionRequest({required BuildContext context}) {
   });
 }
 
-void setNotificationListner(BuildContext context) {
+void setNotificationListener() {
   AwesomeNotifications()
       .actionStream
       .listen((ReceivedNotification receivedNotification) {
-    Navigator.of(context).pushNamed(RouteGenerator.schedulePage);
+    log('got a new notification');
   });
 }
 
@@ -76,10 +75,10 @@ void createReminderNotification(Todo todo) {
 }
 
 DateTime scheduleTime(Todo todo) {
-  final dateconverter = DatabaseDateTimeConverter();
+  final dateConverter = DatabaseDateTimeConverter();
   final timeConverter = DatabaseTimeOfDayConverter();
 
-  final todoDateOnly = dateconverter.decode(data: todo.date!);
+  final todoDateOnly = dateConverter.decode(data: todo.date!);
   final todoStartTime = timeConverter.decode(data: todo.startTime!);
 
   final currentTodoDate = DateTime(todoDateOnly.year, todoDateOnly.month,

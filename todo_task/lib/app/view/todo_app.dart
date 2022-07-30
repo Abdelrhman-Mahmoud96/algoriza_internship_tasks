@@ -9,10 +9,8 @@ import 'package:todo_task/presentation/notifications/todo_notification_utils.dar
 import 'package:todo_task/presentation/pages/board_page/view/board_page.dart';
 import 'package:todo_task/theme/todo_theme.dart';
 
-// work as the root of the app setting routes and providing,
-// repository to the whole app
-class TodoAppPage extends StatelessWidget {
-  const TodoAppPage({
+class TodoApp extends StatefulWidget {
+  const TodoApp({
     Key? key,
     required this.todoRepository,
   }) : super(key: key);
@@ -20,9 +18,25 @@ class TodoAppPage extends StatelessWidget {
   final IRepository todoRepository;
 
   @override
+  State<TodoApp> createState() => _TodoAppState();
+}
+
+class _TodoAppState extends State<TodoApp> {
+  late String currentRoute;
+
+  @override
+  void initState() {
+    currentRoute = RouteGenerator.boardPage;  
+    // listen to user tab on the notifications,
+    //need to be created before Material App widget to work in the background
+    setNotificationListener();   
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
-        value: todoRepository,
+        value: widget.todoRepository,
         child: ScreenUtilInit(
             designSize: const Size(360, 690),
             minTextAdapt: true,
@@ -39,38 +53,8 @@ class TodoAppPage extends StatelessWidget {
                   Locale('en', 'US'),
                 ],
                 onGenerateRoute: RouteGenerator.generateRoute,
-                initialRoute: RouteGenerator.homePage,
-                //home: const BoardPage(),
+                initialRoute: RouteGenerator.boardPage,                
               );
             }));
-  }
-}
-
-// creating a notifications listener and managing notification permission, 
-// because of the notifications action listener, i had to separate it from the TodoAppPage,
-// which is responsible of navigating the user to schedule screen, and to achieve that,
-// i need the correct context which it should come from a Matrial App widget,
-// in order to separate the concerns of each class, i created this class;
-class TodoAppView extends StatefulWidget {
-  const TodoAppView({Key? key}) : super(key: key);
-
-  @override
-  State<TodoAppView> createState() => _TodoAppViewState();
-}
-
-class _TodoAppViewState extends State<TodoAppView> {
-  @override
-  void initState() {
-    // check notification permission and create a dialoge
-    // to get user permission if not granted already
-    notificationPermissionRequest(context: context);
-    // listen to user tab on the notifications
-    setNotificationListner(context);
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const BoardPage();
   }
 }
