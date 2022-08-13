@@ -7,7 +7,23 @@ import 'package:todo_task/core/converters/time_converter.dart';
 import 'package:todo_task/domain/entity/todo.dart';
 import 'package:todo_task/theme/colors.dart';
 
-void notificationPermissionRequest({required BuildContext context}) {
+void initNotificationPlugin() {
+  AwesomeNotifications().initialize(
+    'resource://drawable/todo_icon.png',
+    [
+      NotificationChannel(
+          channelGroupKey: 'todos_channel_group_key',
+          channelKey: 'todos_channel_key',
+          channelName: 'todos notifications',
+          channelDescription: 'notification channel for todo\'s reminder',
+          defaultColor: TodoColors.todoPrimaryWhite,
+          importance: NotificationImportance.High,
+          ledColor: TodoColors.todoPurple),
+    ],
+  );
+}
+
+void notificationPermissionRequest(BuildContext context) {
   AwesomeNotifications().isNotificationAllowed().then((isAllowed) async {
     if (!isAllowed) {
       await showDialog<bool>(
@@ -48,11 +64,18 @@ void notificationPermissionRequest({required BuildContext context}) {
   });
 }
 
-void setNotificationListener() {
+void setNotificationActionListener(BuildContext context) {
   AwesomeNotifications()
       .actionStream
       .listen((ReceivedNotification receivedNotification) {
-    log('got a new notification');
+    // we could send it to the notifications page when we finish it,
+    Navigator.of(context).pushNamed(
+      '/schedule_page', 
+      arguments: {
+      'id': receivedNotification.id,
+      'title': receivedNotification.title,
+      'body': receivedNotification.body,
+    });
   });
 }
 

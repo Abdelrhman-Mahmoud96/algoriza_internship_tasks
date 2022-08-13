@@ -1,4 +1,6 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo_task/core/helpers/todos_tab_filter.dart';
@@ -12,20 +14,41 @@ import 'package:todo_task/presentation/pages/board_page/tabs/favorite_todos_tab/
 import 'package:todo_task/presentation/pages/board_page/tabs/uncompleted_todos_tab/uncompleted_todos_page.dart';
 import 'package:todo_task/theme/colors.dart';
 
-class BoardPage extends StatelessWidget {
-  const BoardPage({Key? key,}) : super(key: key);
-  
+class BoardPage extends StatefulWidget {
+  const BoardPage({
+    Key? key,
+  }) : super(key: key);
+
   @override
-  Widget build(BuildContext context) { 
-     // check notification permission and create a dialog
-    // to get user permission if not granted already 
-    notificationPermissionRequest(context: context);  
-    
+  State<StatefulWidget> createState() => _BoardPageState();
+}
+
+class _BoardPageState extends State<BoardPage> {
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      // check notification permission and create a dialog
+      // to get user permission if not granted already
+      notificationPermissionRequest(context);
+      // listening to notifications and trigger the action when tapping it
+      setNotificationActionListener(context);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return BlocProvider<BoardPageBloc>(
       create: (context) =>
           BoardPageBloc(databaseRepository: context.read<IRepository>()),
       child: const BoardView(),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    AwesomeNotifications().actionSink.close();
   }
 }
 
@@ -42,8 +65,8 @@ class BoardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // get the current selected tab from bloc
-    final selectedTab = context
-    .select((BoardPageBloc bloc) => bloc.state.todosTabFilter);
+    final selectedTab =
+        context.select((BoardPageBloc bloc) => bloc.state.todosTabFilter);
 
     return DefaultTabController(
         length: _boardTabs.length,
@@ -54,7 +77,7 @@ class BoardView extends StatelessWidget {
           tabController?.addListener(() {
             // changing the tab will send the tab name to the bloc and
             // the todos will be filtred regarded to that tab
-            // 
+            //
             // head to BoardPageState for more info
             context.read<BoardPageBloc>().add(
                 TabChanged(tab: TodosTabFilter.values[tabController.index]));
@@ -74,13 +97,11 @@ class BoardView extends StatelessWidget {
                       size: 30,
                     ),
                     onPressed: () {
-                       ScaffoldMessenger.of(context)
-                      ..hideCurrentSnackBar()
-                      ..showSnackBar(
-                        const SnackBar(
-                            content: Text('not implemented yet!')),
-                      );
-                  
+                      ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(
+                          const SnackBar(content: Text('not implemented yet!')),
+                        );
                     },
                   ),
                 ),
@@ -111,7 +132,8 @@ class BoardView extends StatelessWidget {
                       size: 30,
                     ),
                     onPressed: () {
-                      Navigator.of(context).pushNamed(RouteGenerator.addTodoPage);
+                      Navigator.of(context)
+                          .pushNamed(RouteGenerator.addTodoPage);
                     },
                   ),
                 ),
@@ -149,7 +171,6 @@ class BoardView extends StatelessWidget {
               UncompletedTodosPage(),
               FavoriteTodosPage(),
             ]),
-            
           );
         }));
   }
